@@ -16,8 +16,6 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
     private readonly IHttpClientCache _httpClientCache;
     private readonly IConfiguration _config;
 
-    private const string _prodBaseUrl = "https://rebrickable.com/api/v3/";
-
     public RebrickableHttpClient(IHttpClientCache httpClientCache, IConfiguration config)
     {
         _httpClientCache = httpClientCache;
@@ -31,7 +29,6 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
 
             var options = new HttpClientOptions
             {
-                BaseAddress = _prodBaseUrl,
                 DefaultRequestHeaders = new Dictionary<string, string>
                 {
                     {"Authorization", $"key {apiKey}"},
