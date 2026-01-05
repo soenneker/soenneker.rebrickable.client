@@ -24,18 +24,19 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return _httpClientCache.Get(nameof(RebrickableHttpClient), () => {
-            var apiKey = _config.GetValueStrict<string>("Rebrickable:ApiKey");
+        // No closure: state passed explicitly + static lambda
+        return _httpClientCache.Get(nameof(RebrickableHttpClient), _config, static config =>
+        {
+            var apiKey = config.GetValueStrict<string>("Rebrickable:ApiKey");
 
-            var options = new HttpClientOptions
+            return new HttpClientOptions
             {
                 DefaultRequestHeaders = new Dictionary<string, string>
                 {
                     {"Authorization", $"key {apiKey}"},
                 }
             };
-            return options;
-        }, cancellationToken: cancellationToken);
+        }, cancellationToken);
     }
 
     public void Dispose()
