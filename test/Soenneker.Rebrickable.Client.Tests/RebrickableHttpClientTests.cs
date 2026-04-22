@@ -1,20 +1,19 @@
-﻿using Soenneker.Rebrickable.Client.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Rebrickable.Client.Abstract;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Rebrickable.Client.Tests;
 
-[Collection("Collection")]
-public sealed class RebrickableHttpClientTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public sealed class RebrickableHttpClientTests : HostedUnitTest
 {
     private readonly IRebrickableHttpClient _httpclient;
 
-    public RebrickableHttpClientTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public RebrickableHttpClientTests(Host host) : base(host)
     {
         _httpclient = Resolve<IRebrickableHttpClient>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
