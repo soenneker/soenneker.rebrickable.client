@@ -38,7 +38,7 @@ jobs:
         run: dotnet build test/Soenneker.Rebrickable.Client.Tests/Soenneker.Rebrickable.Client.Tests.csproj --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test test/Soenneker.Rebrickable.Client.Tests/Soenneker.Rebrickable.Client.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
+        run: dotnet test --project test/Soenneker.Rebrickable.Client.Tests/Soenneker.Rebrickable.Client.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
 
       - name: Pack
         run: dotnet pack src/Soenneker.Rebrickable.Client/Soenneker.Rebrickable.Client.csproj --configuration Release --no-build --no-restore --output . --verbosity minimal
