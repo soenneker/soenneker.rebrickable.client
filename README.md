@@ -23,7 +23,7 @@ dotnet add package Soenneker.Rebrickable.Client
 }
 ```
 
-The client uses `https://rebrickable.com/api/v3/` by default. Set `Rebrickable:ClientBaseUrl` only when routing through a proxy or compatible endpoint.
+The client uses `https://rebrickable.com/` by default. Set `Rebrickable:ClientBaseUrl` only when routing through a proxy or compatible endpoint.
 
 ## Usage
 
@@ -45,7 +45,7 @@ public sealed class RebrickableColorService
     public async Task<string> GetColors(CancellationToken cancellationToken)
     {
         HttpClient client = await _rebrickable.Get(cancellationToken);
-        return await client.GetStringAsync("lego/colors/", cancellationToken);
+        return await client.GetStringAsync("api/v3/lego/colors/", cancellationToken);
     }
 }
 ```

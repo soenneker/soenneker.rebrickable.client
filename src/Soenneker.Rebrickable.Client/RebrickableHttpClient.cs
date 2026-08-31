@@ -16,7 +16,7 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
     private readonly IConfiguration _config;
     private readonly string _cacheKey = $"{nameof(RebrickableHttpClient)}:{System.Guid.NewGuid():N}";
 
-    private const string _prodBaseUrl = "https://rebrickable.com/api/v3/";
+    private const string _prodBaseUrl = "https://rebrickable.com/";
 
     public RebrickableHttpClient(IHttpClientCache httpClientCache, IConfiguration config)
     {
