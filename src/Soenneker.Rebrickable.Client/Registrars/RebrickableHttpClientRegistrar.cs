@@ -6,7 +6,7 @@ using Soenneker.Utils.HttpClientCache.Registrar;
 namespace Soenneker.Rebrickable.Client.Registrars;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for GitHub
+/// Registers the authenticated Rebrickable HTTP client provider.
 /// </summary>
 public static class RebrickableHttpClientRegistrar
 {

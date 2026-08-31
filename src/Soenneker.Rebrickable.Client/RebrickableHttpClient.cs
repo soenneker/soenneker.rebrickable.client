@@ -10,11 +10,13 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 
 namespace Soenneker.Rebrickable.Client;
 
-///<inheritdoc cref="IRebrickableHttpClient"/>
 public sealed class RebrickableHttpClient : IRebrickableHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
     private readonly IConfiguration _config;
+    private readonly string _cacheKey = $"{nameof(RebrickableHttpClient)}:{System.Guid.NewGuid():N}";
+
+    private const string _prodBaseUrl = "https://rebrickable.com/api/v3/";
 
     public RebrickableHttpClient(IHttpClientCache httpClientCache, IConfiguration config)
     {
@@ -24,13 +26,13 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        // No closure: state passed explicitly + static lambda
-        return _httpClientCache.Get(nameof(RebrickableHttpClient), _config, static config =>
+        return _httpClientCache.Get(_cacheKey, (config: _config, baseUrl: _config["Rebrickable:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
         {
-            var apiKey = config.GetValueStrict<string>("Rebrickable:ApiKey");
+            var apiKey = state.config.GetValueStrict<string>("Rebrickable:ApiKey");
 
             return new HttpClientOptions
             {
+                BaseAddress = new System.Uri(state.baseUrl),
                 DefaultRequestHeaders = new Dictionary<string, string>
                 {
                     {"Authorization", $"key {apiKey}"},
@@ -39,20 +41,13 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
         }, cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
-        _httpClientCache.RemoveSync(nameof(RebrickableHttpClient));
+        _httpClientCache.RemoveSync(_cacheKey);
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
-        return _httpClientCache.Remove(nameof(RebrickableHttpClient));
+        return _httpClientCache.Remove(_cacheKey);
     }
 }
