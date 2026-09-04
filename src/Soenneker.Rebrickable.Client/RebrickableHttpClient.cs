@@ -10,6 +10,7 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 
 namespace Soenneker.Rebrickable.Client;
 
+/// <inheritdoc cref="IRebrickableHttpClient" />
 public sealed class RebrickableHttpClient : IRebrickableHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
