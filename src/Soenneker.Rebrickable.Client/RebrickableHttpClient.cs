@@ -29,7 +29,7 @@ public sealed class RebrickableHttpClient : IRebrickableHttpClient
     {
         return _httpClientCache.Get(_cacheKey, (config: _config, baseUrl: _config["Rebrickable:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
         {
-            var apiKey = state.config.GetValueStrict<string>("Rebrickable:ApiKey");
+            var apiKey = state.config.GetStringStrict("Rebrickable:ApiKey");
 
             return new HttpClientOptions
             {
